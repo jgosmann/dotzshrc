@@ -68,3 +68,10 @@ bindkey -M menuselect '^o' accept-and-infer-next-history
 
 zstyle ':completion:*:*:open:*' ignored-patterns '*?.bib' '*?.aux' '*?.bbl' '*?.bcf' '*?.blg' '*?.log' '*?.out' '*?.xml' '*?.synctex.gz' '*?.tex'
 
+alias mysqlstart="sudo /opt/local/bin/mysqld_safe5"
+alias mysqlstop="/opt/local/bin/mysqladmin5 -u root -p shutdown"
+alias postgres-restart="sudo -u postgres /Library/PostgreSQL/9.0/bin/pg_ctl -D /Library/PostgreSQL/9.0/data restart"
+if ! (type -p netcat > /dev/null); then
+    alias netcat=nc
+fi
+
