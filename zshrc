@@ -25,7 +25,7 @@ zstyle ':omz:*:*' case-sensitive 'no'
 zstyle ':omz:*:*' color 'yes'
 
 # Auto set the tab and window titles.
-zstyle ':omz:module:terminal' auto-title 'yes'
+zstyle ':omz:module:terminal' auto-title 'no'
 
 # Set the Zsh modules to load (man zshmodules).
 # zstyle ':omz:load' zmodule 'attr' 'stat'
@@ -35,7 +35,8 @@ zstyle ':omz:module:terminal' auto-title 'yes'
 
 # Set the Oh My Zsh modules to load (browse modules).
 zstyle ':omz:load' omodule 'environment' 'terminal' 'editor' 'completion' \
-  'history' 'directory' 'spectrum' 'alias' 'utility' 'git' 'prompt'
+  'history' 'directory' 'spectrum' 'alias' 'utility' 'git' 'prompt' 'macports' \
+  'syntax-highlighting'
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
@@ -46,4 +47,9 @@ zstyle ':omz:module:prompt' theme 'jgosmann'
 source "$OMZ/init.zsh"
 
 # Customize to your needs...
+
+setopt HUP
+setopt CHECK_JOBS
+
+path=(/opt/local/bin $path ~/bin)
 
