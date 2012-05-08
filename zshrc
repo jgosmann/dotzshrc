@@ -63,3 +63,8 @@ bindkey -M viins "$key_info[Control]A" beginning-of-line
 bindkey -M viins "$key_info[Control]E" end-of-line
 bindkey -M viins "$key_info[Control]U" kill-whole-line
 
+zmodload zsh/complist
+bindkey -M menuselect '^o' accept-and-infer-next-history
+
+zstyle ':completion:*:*:open:*' ignored-patterns '*?.bib' '*?.aux' '*?.bbl' '*?.bcf' '*?.blg' '*?.log' '*?.out' '*?.xml' '*?.synctex.gz' '*?.tex'
+
