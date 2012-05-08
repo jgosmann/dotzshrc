@@ -71,7 +71,8 @@ bindkey -M viins "$key_info[Control]U" kill-whole-line
 zmodload zsh/complist
 bindkey -M menuselect '^o' accept-and-infer-next-history
 
-zstyle ':completion:*:*:open:*' ignored-patterns '*?.bib' '*?.aux' '*?.bbl' '*?.bcf' '*?.blg' '*?.log' '*?.out' '*?.xml' '*?.synctex.gz' '*?.tex'
+zstyle ':completion:*:*:open:*' ignored-patterns '*?.bib' '*?.aux' '*?.bbl' \
+    '*?.bcf' '*?.blg' '*?.log' '*?.out' '*?.xml' '*?.synctex.gz' '*?.tex'
 
 alias mysqlstart="sudo /opt/local/bin/mysqld_safe5"
 alias mysqlstop="/opt/local/bin/mysqladmin5 -u root -p shutdown"
