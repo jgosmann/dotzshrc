@@ -1,108 +1,111 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.zsh/oh-my-zsh
+#
+# Sets Oh My Zsh options.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="jgosmann"
-#ZSH_THEME=""
+# Set the path to Oh My Zsh.
+export OMZ="$HOME/.zsh/oh-my-zsh"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Set the key mapping style to 'emacs' or 'vi'.
+zstyle ':omz:module:editor' keymap 'vi'
 
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
+# Auto convert .... to ../..
+zstyle ':omz:module:editor' dot-expansion 'no'
 
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+# Set case-sensitivity for completion, history lookup, etc.
+zstyle ':omz:*:*' case-sensitive 'no'
 
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
+# Color output (auto set to 'no' on dumb terminals).
+zstyle ':omz:*:*' color 'yes'
 
-# Uncomment following line if you want to disable autosetting terminal title.
-DISABLE_AUTO_TITLE="true"
+# Auto set the tab and window titles.
+zstyle ':omz:module:terminal' auto-title 'yes'
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+# Set the Zsh modules to load (man zshmodules).
+# zstyle ':omz:load' zmodule 'attr' 'stat'
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git vi-mode)
+# Set the Zsh functions to load (man zshcontrib).
+# zstyle ':omz:load' zfunction 'zargs' 'zmv'
 
-source $ZSH/oh-my-zsh.sh
+# Set the Oh My Zsh modules to load (browse modules).
+zstyle ':omz:load' omodule 'environment' 'terminal' 'editor' 'completion' \
+  'history' 'directory' 'spectrum' 'alias' 'utility' 'git' #'prompt'
+
+# Set the prompt theme to load.
+# Setting it to 'random' loads a random theme.
+# Auto set to 'off' on dumb terminals.
+#zstyle ':omz:module:prompt' theme 'sorin'
+MODE_INDICATOR='%U'
+function zle-line-init zle-keymap-select {
+  zle reset-prompt
+}
+
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+
+#bindkey -v
+
+function vi_mode_prompt_info() {
+  echo "${${KEYMAP/vicmd/$MODE_INDICATOR}/(main|viins)/}"
+}
+
+ zstyle ':omz:module:git' added '%F{yellow}'
+ zstyle ':omz:module:git' ahead '↑'
+ zstyle ':omz:module:git' behind '↓'
+ zstyle ':omz:module:git' branch '%b'
+ zstyle ':omz:module:git' clean '%F{green}'
+ zstyle ':omz:module:git' dirty '%F{red}'
+ zstyle ':omz:module:git' renamed '%F{yellow}'
+
+ zstyle ':omz:module:git' action '%F{magenta}%s%f'
+ zstyle ':omz:module:git' unmerged '%F{magenta}(%U)%f'
+ zstyle ':omz:module:git' stashed '%F{magenta}✭%f'
+ zstyle ':omz:module:git' untracked '%F{magenta}?%f'
+ zstyle ':omz:module:git' commit '%F{blue}%c%f'
+
+ zstyle ':omz:module:git' remote '%R'
+ zstyle ':omz:module:git:prompt' position '%p'
+ zstyle ':omz:module:git' deleted 'd'
+ zstyle ':omz:module:git' modified 'm'
+ # Ignore submodule when it is 'dirty', 'untracked', 'all', or 'none'.
+ zstyle ':omz:module:git:ignore' submodule ''
+
+ # Prompts.
+ zstyle ':omz:module:git' info \
+   'prompt'   '%C%D%r%a%b' \
+   'rprompt'  '%s%U %S%u %10>>%c' \
+   'position' '%A%B'
+
+function prompt_precmd {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt_precmd
+
+function git_prompt_info() {
+  git rev-parse 2> /dev/null || return
+  ref=$(git symbolic-ref HEAD 2> /dev/null || print '(no branch)')
+  echo "$(git_prompt_ahead)$(parse_git_dirty)${ref#refs/heads/}"
+}
+
+zstyle ':omz:module:editor' completing '%B%F{red}...%f%b'
+zstyle ':omz:module:editor:keymap:primary' overwrite '%S'
+zstyle ':omz:module:editor:keymap' alternate '%U'
+
+setopt PROMPT_SUBST
+PROMPT='${editor_info[keymap]}${editor_info[overwrite]}%m:%F{blue}%1~%f${git_info:+${${git_info[position]/↑↓/↕}:-|}${(e)git_info[prompt]}}%{%(?.%F{green}.%F{red})%}%(!.#.>)%f%s%u '
+RPROMPT='%(?..%F{red}%?%f )${git_info:+${git_info[rprompt]}}'
+SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# This will make you shout: OH MY ZSHELL!
+source "$OMZ/init.zsh"
 
 # Customize to your needs...
-setopt CORRECT # redundant
-setopt NO_BG_NICE
 
-# not redundant
-# unset hist_ignore_dups and share_history?
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-
-autoload colors zsh/terminfo
-colors
-
-alias mysqlstart="sudo /opt/local/bin/mysqld_safe5"
-alias mysqlstop="/opt/local/bin/mysqladmin5 -u root -p shutdown"
-alias postgres-restart="sudo -u postgres /Library/PostgreSQL/9.0/bin/pg_ctl -D /Library/PostgreSQL/9.0/data restart"
-if ! (type -p netcat > /dev/null); then
-    alias netcat=nc
-fi
-
-export CLICOLOR=''
-export EDITOR=vim
-export PAGER='less -is' #REDUNDAND?
-
-typeset -U path
-path=(/opt/local/bin $path ~/bin)
-export -TU PYTHONPATH pythonpath
-pythonpath=($pythonpath ~/bin/python/lib/python)
-
-bindkey -v
-# Add magic space? Fn + Delete!!
-# jump to beginnig/end of line
-bindkey -M vicmd 'gg' beginning-of-history
-bindkey -M vicmd 'u' undo
-bindkey -M vicmd '^R' redo
-bindkey -M viins '^H' backward-delete-char
-bindkey -M viins '^?' backward-delete-char
-
-bindkey -M vicmd 'g~' vi-oper-swap-case
-
-bindkey -M viins '^R' history-incremental-search-backward
-bindkey -M viins '^S' history-incremental-search-forward
-# Could also use accept-and-down-history
-bindkey -M viins '^X^N' accept-and-infer-next-history
-bindkey -M viins '\e.' insert-last-word
-
-bindkey -M viins '^A' beginning-of-line
-bindkey -M viins '^E' end-of-line
-
-bindkey -M viins '^Q' push-line-or-edit
-
-# exchange-point-and-mark
-# copy paste with mark jumping
-
-
-bindkey -M viins '^[[Z' reverse-menu-complete
-zmodload -i zsh/complist # redundant with oh-my-zsh
-zstyle ':completion:*' menu select=2 # redundant
-bindkey -M menuselect '^o' accept-and-infer-next-history # redundant
-bindkey -M menuselect '^M' .accept-line
-zstyle ':completion:*' use-compctl false # keep in?
-
-zstyle ':completion:*' list-colors '' # redundant
-
-zstyle ':completion:*:*:open:*' ignored-patterns '*?.bib' '*?.aux' '*?.bbl' '*?.bcf' '*?.blg' '*?.log' '*?.out' '*?.xml' '*?.synctex.gz' '*?.tex'
-zstyle ':completion:*:*:kill:*' command 'ps -r -u$USER' # check redundant
-
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-zstyle ':completion:*' completer _complete _approximate:-one _complete:-extended _approximate:-four
-zstyle ':completion:*:approximate-one:*' max-errors 1
-zstyle ':completion:*:complete-extended:*' matcher 'r:|[.,_-]=* r:|=*' # redundant?
-zstyle ':completion:*:approximate-four:*' max-errors 4
