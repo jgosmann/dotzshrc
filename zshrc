@@ -53,3 +53,13 @@ setopt CHECK_JOBS
 
 path=(/opt/local/bin $path ~/bin)
 
+bindkey -M viins -r 'jk'
+bindkey -M viins -r 'kj'
+bindkey -M vicmd 'gg' beginning-of-history
+bindkey -M vicmd 'g~' vi-oper-swap-case
+bindkey -M viins "$key_info[Control]S" prepend-sudo
+bindkey -M viins "$key_info[Control]N" accept-and-infer-next-history
+bindkey -M viins "$key_info[Control]A" beginning-of-line
+bindkey -M viins "$key_info[Control]E" end-of-line
+bindkey -M viins "$key_info[Control]U" kill-whole-line
+
