@@ -51,6 +51,7 @@ source "$OMZ/init.zsh"
 setopt HUP
 setopt CHECK_JOBS
 unsetopt SHARE_HISTORY
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[command]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=cyan'
