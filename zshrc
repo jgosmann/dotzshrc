@@ -51,6 +51,9 @@ source "$OMZ/init.zsh"
 export EDITOR='vim'
 export VISUAL='vim'
 
+alias rm='nocorrect rm'
+alias mv='nocorrect mv'
+
 setopt HUP
 setopt CHECK_JOBS
 unsetopt SHARE_HISTORY
