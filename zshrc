@@ -60,14 +60,21 @@ setopt CHECK_JOBS
 unsetopt SHARE_HISTORY
 
 export EDITOR='vim'
+export PAGER='less -i'
 export VISUAL='vim'
 
-path=(/opt/local/bin $path ~/bin)
+path=($path ~/bin)
 
 load ~/.zsh/alias.zsh
 load ~/.zsh/completion.zsh
 load ~/.zsh/keys.zsh
 load ~/.zsh/syntax.zsh
+
+case `uname` in
+    *Darwin*)
+        load ~/.zsh/osx.zsh
+        ;;
+esac
 
 unfunction load
 
