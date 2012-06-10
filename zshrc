@@ -55,8 +55,9 @@ function load() {
     fi
 }
 
-setopt HUP
 setopt CHECK_JOBS
+setopt CLOBBER
+setopt HUP
 unsetopt SHARE_HISTORY
 
 export EDITOR='vim'
