@@ -12,3 +12,5 @@ bindkey -M viins "$key_info[Control]U" kill-whole-line
 zmodload zsh/complist # To be able to access menuselect keymap
 bindkey -M menuselect '^o' accept-and-infer-next-history
 
+lesskey ~/.zsh/lesskey
+

@@ -1,0 +1,9 @@
+#command
+n    forw-line
+r    back-line
+j    repeat-search
+
+#line-edit
+
+#env
+
