@@ -71,6 +71,8 @@ load ~/.zsh/completion.zsh
 load ~/.zsh/keys.zsh
 load ~/.zsh/syntax.zsh
 
+load ~/.zsh/arduino.zsh
+
 case `uname` in
     *Darwin*)
         load ~/.zsh/osx.zsh
