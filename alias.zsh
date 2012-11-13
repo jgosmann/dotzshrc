@@ -1,4 +1,5 @@
 
+alias cp='nocorrect cp'
 alias rm='nocorrect rm'
 alias mv='nocorrect mv'
 
